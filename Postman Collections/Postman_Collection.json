@@ -24,7 +24,7 @@
 					}
 				}
 			],
-			"_postman_id": "ffe69b11-2bb7-44c2-acdc-807980ef9871",
+			"id": "ffe69b11-2bb7-44c2-acdc-807980ef9871",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -92,7 +92,7 @@
 					}
 				}
 			],
-			"_postman_id": "bbe0d697-9dad-471b-a8fc-3da1f33d0c7d",
+			"id": "bbe0d697-9dad-471b-a8fc-3da1f33d0c7d",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -115,7 +115,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"amount\": 17,\n    \"currency\": \"{{currency}}\",\n    \"vendorId\": \"{{vendorIdRest}}\",\n    \"walletId\": \"{{walletId}}\",\n    \"synchronizePaymentInstruments\": \"true\",\n    \"includeRewardInfo\": false,\n    \"includeBinAdditionalData\": false,\n    \"externalReference\": \"{{externalReferenceId}}\", \n    \"userPhone\": \"{{userPhone}}\",\n    \"isUserPhoneValidated\": \"true\",\n    \"isNewIntegrationEnabled\":\"true\"\n} ",
+					"raw": "{\n    \"amount\": 18,\n    \"currency\": \"{{currency}}\",\n    \"vendorId\": \"{{vendorIdRest}}\",\n    \"walletId\": \"{{walletId}}\",\n    \"synchronizePaymentInstruments\": \"true\",\n    \"includeRewardInfo\": false,\n    \"includeBinAdditionalData\": false,\n    \"externalReference\": \"{{externalReferenceId}}\", \n    \"userPhone\": \"{{userPhone}}\",\n    \"isUserPhoneValidated\": \"true\",\n    \"isNewIntegrationEnabled\":\"true\"\n} ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -144,7 +144,7 @@
 					}
 				}
 			],
-			"_postman_id": "9869f95c-5176-432d-8df0-ab11522fdfb8",
+			"id": "9869f95c-5176-432d-8df0-ab11522fdfb8",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -167,8 +167,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"amount\": 17,\n    \"emoneyAmountToUse\": 0,\n    \"captureMode\": \"Asap\",\n    \"currency\": \"{{currency}}\",\n    \"description\": \"Masterpass tests isil\",\n    \"paymentSessionDetails\": {\n        \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n        \"selectedPaymentInstrumentId\": \"NEW\",\n        \"userFirstName\": \"Master\",\n        \"userIpAddress\": \"192.168.1.1\",\n        \"shouldStorePaymentInstrument\": false,\n        \"threeDSecureRequired\": false,\n        \"cardHolderName\": \"Isil\",\n        \"userId\": \"{{externalReferenceId}}\",\n        \"userLastName\": \"Test\",\n        \"returnUrl\": \"https://www.foodpanda.co.th/payments/handle-payment?platformReferenceId={{orderCode}}\",\n        \"cardLastDigits\": \"4509\", \n        \"bin\": \"450803\",\n        \"userPhone\": \"{{userPhone}}\",\n        \"isUserPhoneValidated\": \"true\",    \n        \"isNewIntegrationEnabled\":\"true\",\n        \"rawCardExpiryMonth\": \"12\",\n        \"rawCardExpiryYear\": \"2026\"\n        },\n    \"platformReferenceId\": \"{{orderCode}}\"\n}\n",
-					"options": {}
+					"raw": "{\n    \"amount\": 17,\n    \"emoneyAmountToUse\": 0,\n    \"captureMode\": \"Asap\",\n    \"currency\": \"{{currency}}\",\n    \"description\": \"Masterpass tests isil\",\n    \"paymentSessionDetails\": {\n        \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n        \"selectedPaymentInstrumentId\": \"NEW\",\n        \"userFirstName\": \"Master\",\n        \"userIpAddress\": \"192.168.1.1\",\n        \"shouldStorePaymentInstrument\": false,\n        \"threeDSecureRequired\": false,\n        \"cardHolderName\": \"Isil\",\n        \"userId\": \"{{externalReferenceId}}\",\n        \"userLastName\": \"Test\",\n        \"returnUrl\": \"https://www.foodpanda.co.th/payments/handle-payment?platformReferenceId={{orderCode}}\",\n        \"cardLastDigits\": \"4509\", \n        \"bin\": \"450803\",\n        \"userPhone\": \"{{userPhone}}\",\n        \"isUserPhoneValidated\": \"true\",    \n        \"isNewIntegrationEnabled\":\"true\",\n        \"rawCardExpiryMonth\": \"12\",\n        \"rawCardExpiryYear\": \"2026\"\n        },\n    \"platformReferenceId\": \"{{orderCode}}\"\n}\n"
 				},
 				"url": "{{baseUrl_Alfred}}/v2/alfred/intent/{{purchaseIntentId}}:confirm"
 			},
@@ -193,7 +192,7 @@
 					}
 				}
 			],
-			"_postman_id": "7fe1cb7f-d86e-4d68-bcd4-7c6f31b5625f",
+			"id": "7fe1cb7f-d86e-4d68-bcd4-7c6f31b5625f",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -220,8 +219,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "",
-					"options": {}
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{baseUrl_Alfred}}/v2/alfred/wallet/paymentinstruments?walletId={{walletId}}&includeDetails=true&paymentInstrumentStatus=Active&paymentInstrumentType=CreditCard&count=500&userPhone={{userPhone}}&isUserPhoneVerified=true&synchronizePaymentInstruments=true",
@@ -274,7 +272,7 @@
 		},
 		{
 			"name": "Delete Payment Instrument",
-			"_postman_id": "ba1b86c6-8dc3-411e-8eec-2174c8d1a53b",
+			"id": "ba1b86c6-8dc3-411e-8eec-2174c8d1a53b",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -334,7 +332,7 @@
 					}
 				}
 			],
-			"_postman_id": "54b751ee-cd9f-4c81-b029-52de768838b5",
+			"id": "54b751ee-cd9f-4c81-b029-52de768838b5",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -357,8 +355,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"description\": \"Test Masterpass Isil\",\n \"paymentAmount\": \"11.50\",\n \"paymentCurrency\": \"{{currency}}\",\n \"walletId\": \"{{walletId}}\",\n \"customType\": \"ManualTopUp\",\n \"paymentSessionDetailsJson\": {\n       \"synchronizePaymentInstruments\":\"true\",\n       \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n       \"userIpAddress\": \"192.168.1.1\",\n       \"userPhone\": \"{{userPhone}}\",\n       \"isUserPhoneVerified\": true,\n       \"isNewIntegrationEnabled\": true,\n       \"userId\": \"{{externalReferenceId}}\"\n   }\n}\n\n",
-					"options": {}
+					"raw": "{\n \"description\": \"Test Masterpass Isil\",\n \"paymentAmount\": \"11.50\",\n \"paymentCurrency\": \"{{currency}}\",\n \"walletId\": \"{{walletId}}\",\n \"customType\": \"ManualTopUp\",\n \"paymentSessionDetailsJson\": {\n       \"synchronizePaymentInstruments\":\"true\",\n       \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n       \"userIpAddress\": \"192.168.1.1\",\n       \"userPhone\": \"{{userPhone}}\",\n       \"isUserPhoneVerified\": true,\n       \"isNewIntegrationEnabled\": true,\n       \"userId\": \"{{externalReferenceId}}\"\n   }\n}\n\n"
 				},
 				"url": "{{baseUrl_Alfred}}/v2/wallet/tx/payments"
 			},
@@ -366,7 +363,7 @@
 		},
 		{
 			"name": "Confirm Top-Up Intent",
-			"_postman_id": "12bb037a-e2b1-49d9-88fd-0bbbff0a211c",
+			"id": "12bb037a-e2b1-49d9-88fd-0bbbff0a211c",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -407,7 +404,7 @@
 					}
 				}
 			],
-			"_postman_id": "51a0a5b5-106c-4a0b-9981-6c0ce8e9d3e7",
+			"id": "51a0a5b5-106c-4a0b-9981-6c0ce8e9d3e7",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -428,8 +425,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "",
-					"options": {}
+					"raw": ""
 				},
 				"url": "{{baseUrl_Alfred}}/v2/alfred/rider/rider"
 			},
@@ -437,7 +433,7 @@
 		},
 		{
 			"name": "Insert Rider",
-			"_postman_id": "efa2b6f8-ca8b-482f-bae9-b1644a679509",
+			"id": "efa2b6f8-ca8b-482f-bae9-b1644a679509",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
