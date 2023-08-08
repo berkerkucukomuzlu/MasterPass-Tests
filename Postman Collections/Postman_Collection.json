@@ -1,0 +1,528 @@
+{
+	"info": {
+		"_postman_id": "c12a8e73-2184-419a-8ae7-3d5d131e3b9a",
+		"name": "Masterpass Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authenticate Wallet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b6e708-a291-4809-a492-c436effb12e5",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    var jsonData = pm.response.json();",
+							"    pm.environment.set(\"walletId\", jsonData.data.walletId);",
+							"    pm.environment.set(\"walletAccessToken\", jsonData.data.accessToken.accessToken);",
+							" ",
+							" }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "ffe69b11-2bb7-44c2-acdc-807980ef9871",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Api-Key",
+						"value": "{{platformApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"externalReferenceId\": \"{{externalReferenceId}}\",\n    \"subsidiaryName\": \"{{subsidiaryName}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/alfred/platform/{{platformId}}/walletauthentication"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Purchase Intent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eebe6b7f-e51d-4b6f-b19e-5276ed9deb24",
+						"exec": [
+							"if (pm.response.code == 201) {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.environment.set(\"purchaseIntentId\", jsonData.data.purchaseIntent.id);",
+							"    pm.environment.set(\"orderCode\", \"order\" + new Date().getTime());",
+							"    ",
+							"    var cashPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"cash\");",
+							"   ",
+							"   if (cashPaymentMethods && cashPaymentMethods.paymentInstruments.length > 0) {",
+							"        var cashPaymentInstrumentId = cashPaymentMethods.paymentInstruments[0].publicId;",
+							"        pm.environment.set(\"cashPaymentInstrumentId\", cashPaymentInstrumentId);",
+							"   }",
+							"    var cardPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"yemekpay_creditcard\");",
+							"    if (cardPaymentMethods && cardPaymentMethods.paymentInstruments.length > 0) {",
+							"        var cardPaymentInstrumentId = cardPaymentMethods.paymentInstruments[0].publicId;",
+							"        pm.environment.set(\"cardPaymentInstrumentId\", cardPaymentInstrumentId);",
+							"    }",
+							"    var simulatorPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"yemekpay_simulator\");",
+							"    if (simulatorPaymentMethods && simulatorPaymentMethods.paymentInstruments.length > 0) {",
+							"        var simulatorPaymentInstrumentId = simulatorPaymentMethods.paymentInstruments[0].publicId;",
+							"        pm.environment.set(\"simulatorPaymentInstrumentId\", simulatorPaymentInstrumentId);",
+							"    }",
+							"",
+							"    var twistoPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"payu_twisto\");",
+							"    if (twistoPaymentMethods && twistoPaymentMethods.paymentInstruments.length > 0) {",
+							"        var twistoInstrumentId = twistoPaymentMethods.paymentInstruments[0].publicId;",
+							"        pm.environment.set(\"payuTwistoPayInstrId\", twistoInstrumentId);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "bbe0d697-9dad-471b-a8fc-3da1f33d0c7d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{walletAccessToken}}",
+						"type": "text",
+						"name": "Authorization",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 17,\n    \"currency\": \"{{currency}}\",\n    \"vendorId\": \"{{vendorIdRest}}\",\n    \"walletId\": \"{{walletId}}\",\n    \"synchronizePaymentInstruments\": \"true\",\n    \"includeRewardInfo\": false,\n    \"includeBinAdditionalData\": false,\n    \"externalReference\": \"{{externalReferenceId}}\", \n    \"userPhone\": \"{{userPhone}}\",\n    \"isUserPhoneValidated\": \"true\",\n    \"isNewIntegrationEnabled\":\"true\"\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/alfred/intent"
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Purchase Intent - Unlinked",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d3a3b263-34bf-4e0e-938c-74dd8582e1a9",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    var jsonData = pm.response.json();",
+							"    pm.environment.set(\"purchaseId\", jsonData.data.id);",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "9869f95c-5176-432d-8df0-ab11522fdfb8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "text",
+						"value": "Bearer {{walletAccessToken}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 17,\n    \"emoneyAmountToUse\": 0,\n    \"captureMode\": \"Asap\",\n    \"currency\": \"{{currency}}\",\n    \"description\": \"Masterpass tests isil\",\n    \"paymentSessionDetails\": {\n        \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n        \"selectedPaymentInstrumentId\": \"NEW\",\n        \"userFirstName\": \"Master\",\n        \"userIpAddress\": \"192.168.1.1\",\n        \"shouldStorePaymentInstrument\": false,\n        \"threeDSecureRequired\": false,\n        \"cardHolderName\": \"Isil\",\n        \"userId\": \"{{externalReferenceId}}\",\n        \"userLastName\": \"Test\",\n        \"returnUrl\": \"https://www.foodpanda.co.th/payments/handle-payment?platformReferenceId={{orderCode}}\",\n        \"cardLastDigits\": \"4509\", \n        \"bin\": \"450803\",\n        \"userPhone\": \"{{userPhone}}\",\n        \"isUserPhoneValidated\": \"true\",    \n        \"isNewIntegrationEnabled\":\"true\",\n        \"rawCardExpiryMonth\": \"12\",\n        \"rawCardExpiryYear\": \"2026\"\n        },\n    \"platformReferenceId\": \"{{orderCode}}\"\n}\n",
+					"options": {}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/alfred/intent/{{purchaseIntentId}}:confirm"
+			},
+			"response": []
+		},
+		{
+			"name": "List Payment Instruments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b08dcb3-befe-4c1c-af81-6b14824ad639",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    var jsonData = pm.response.json();",
+							"    pm.environment.set(\"paymentInstrumentId\", jsonData.data[0].paymentInstrumentId);",
+							"    pm.environment.set(\"cardPaymentInstrumentId\", jsonData.data[0].paymentInstrumentId);",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "7fe1cb7f-d86e-4d68-bcd4-7c6f31b5625f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{walletAccessToken}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{baseUrl_Alfred}}/v2/alfred/wallet/paymentinstruments?walletId={{walletId}}&includeDetails=true&paymentInstrumentStatus=Active&paymentInstrumentType=CreditCard&count=500&userPhone={{userPhone}}&isUserPhoneVerified=true&synchronizePaymentInstruments=true",
+					"host": [
+						"{{baseUrl_Alfred}}"
+					],
+					"path": [
+						"v2",
+						"alfred",
+						"wallet",
+						"paymentinstruments"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{walletId}}"
+						},
+						{
+							"key": "includeDetails",
+							"value": "true"
+						},
+						{
+							"key": "paymentInstrumentStatus",
+							"value": "Active"
+						},
+						{
+							"key": "paymentInstrumentType",
+							"value": "CreditCard"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "userPhone",
+							"value": "{{userPhone}}"
+						},
+						{
+							"key": "isUserPhoneVerified",
+							"value": "true"
+						},
+						{
+							"key": "synchronizePaymentInstruments",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Payment Instrument",
+			"_postman_id": "ba1b86c6-8dc3-411e-8eec-2174c8d1a53b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{walletAccessToken}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "userPhone",
+						"value": "{{userPhone}}",
+						"type": "text"
+					},
+					{
+						"key": "isUserPhoneVerified",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"url": "{{baseUrl_Alfred}}/v2/wallet/paymentinstruments/{{cardPaymentInstrumentId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Top-Up Intent - New Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "081f5d2a-c4a0-4a6d-a7b7-4c7a58b37e81",
+						"exec": [
+							"if (pm.response.code == 201) {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.environment.set(\"purchasetopupId\", jsonData.data.id);",
+							"    pm.environment.set(\"paymentSessionId\", jsonData.data.paymentSessionId);",
+							"",
+							"    var cardPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"adyen_creditcard\");",
+							"    if (cardPaymentMethods && cardPaymentMethods.paymentInstruments.length > 0) {",
+							"        var cardPaymentInstrumentId = cardPaymentMethods.paymentInstruments[0].publicId;",
+							"        pm.environment.set(\"cardPaymentInstrumentId\", cardPaymentInstrumentId);",
+							"    }",
+							"",
+							"    var gcashPaymentMethods = jsonData.data.paymentMethodDetails.paymentMethods.find(p => p.name == \"antfinancial_gcash\");",
+							"    if (gcashPaymentMethods && gcashPaymentMethods.paymentInstruments.length > 0) {",
+							"        var gcashInstrument = gcashPaymentMethods.paymentInstruments.find(p => p.publicFields.displayValue == \"63-9****56780\")",
+							"        pm.environment.set(\"gcashInstrumentId\", gcashInstrument.publicId);",
+							"    }",
+							"",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "54b751ee-cd9f-4c81-b029-52de768838b5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "text",
+						"value": "Bearer {{walletAccessToken}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"description\": \"Test Masterpass Isil\",\n \"paymentAmount\": \"11.50\",\n \"paymentCurrency\": \"{{currency}}\",\n \"walletId\": \"{{walletId}}\",\n \"customType\": \"ManualTopUp\",\n \"paymentSessionDetailsJson\": {\n       \"synchronizePaymentInstruments\":\"true\",\n       \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n       \"userIpAddress\": \"192.168.1.1\",\n       \"userPhone\": \"{{userPhone}}\",\n       \"isUserPhoneVerified\": true,\n       \"isNewIntegrationEnabled\": true,\n       \"userId\": \"{{externalReferenceId}}\"\n   }\n}\n\n",
+					"options": {}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/wallet/tx/payments"
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Top-Up Intent",
+			"_postman_id": "12bb037a-e2b1-49d9-88fd-0bbbff0a211c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{walletAccessToken}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"paymentSessionDetailsJson\": {\n       \"selectedPaymentMethod\": \"yemekpay_creditcard\",\n       \"newRedirectFlow\": true,\n       \"returnUrl\": \"http://127.0.0.1\",\n       \"selectedPaymentInstrumentId\": \"{{cardPaymentInstrumentId}}\",\n       \"userEmail\": \"isiltest\",\n       \"userFirstName\": \"Isil\",\n       \"userId\": \"{{externalReferenceId}}\",\n       \"userIpAddress\": \"192.168.1.1\",\n       \"userLastName\": \"Postman\",\n       \"userPhone\": \"{{userPhone}}\",\n       \"isUserPhoneVerified\": true,\n       \"isNewIntegrationEnabled\": true,\n       \"bin\": \"450803\",\n       \"cardLastDigits\": \"4509\",\n       \"transactionInitiator\": \"CIT\"\n   },\n   \"paymentSessionId\": \"{{paymentSessionId}}\",\n   \"setAsPreferred\": true\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/wallet/tx/payments/{{purchasetopupId}}:confirm"
+			},
+			"response": []
+		},
+		{
+			"name": "Enroll Rider - Alfred",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b1a18e7-8869-4906-ba18-a48a7307d950",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "51a0a5b5-106c-4a0b-9981-6c0ce8e9d3e7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{walletAccessToken}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/alfred/rider/rider"
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Rider",
+			"_postman_id": "efa2b6f8-ca8b-482f-bae9-b1644a679509",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"riderId\": 359,\n    \"operation\": \"ENROLL\",\n    \"equipmentName\": \"SOFTPOS\",\n    \"equipmentCode\" : \"test23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl_Alfred}}/v2/alfred/rider/rider"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{accessToken}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a07f145a-5fbb-4153-b77f-53b6c45fe580",
+				"type": "text/javascript",
+				"exec": [
+					"const getTokenRequest = {",
+					"    url: pm.environment.get(\"baseUrl_Alfred\") + \"/v2/alfred/platform/\" + pm.environment.get(\"platformId\") + \"/walletauthentication\",",
+					"    method: \"POST\",",
+					"    header:  {\"Content-Type\":\"application/json\", \"Api-Key\": pm.environment.get(\"platformApiKey\")},",
+					"    body: {",
+					"        mode: 'application/json',",
+					"        raw: JSON.stringify({",
+					"            \"externalReferenceId\": pm.environment.get(\"externalReferenceId\"),",
+					"            \"subsidiaryName\": pm.environment.get(\"subsidiaryName\")",
+					"            ",
+					"        })",
+					"    }",
+					"};",
+					"",
+					"",
+					"",
+					"pm.sendRequest(getTokenRequest, function(err, res) {",
+					"    console.log(err ? err : res.json());",
+					"        ",
+					"        var responseJson = res.json();",
+					"        pm.environment.set('accessToken', responseJson.data.accessToken.accessToken)",
+					"        pm.environment.set('walletId', responseJson.data.walletId)",
+					"        ",
+					"});",
+					"",
+					"",
+					"",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "92081ed6-b22d-42c8-9f7d-02d74c0c9659",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
