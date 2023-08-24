@@ -460,7 +460,7 @@
 						}
 					}
 				},
-				"url": "{{baseUrl_Alfred}}/v2/alfred/rider/rider"
+				"url": "{{baseUrl}}/v2/alfred/rider/rider"
 			},
 			"response": []
 		}
