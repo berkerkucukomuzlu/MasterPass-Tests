@@ -122,7 +122,7 @@
 						}
 					}
 				},
-				"url": "{{baseUrl_Alfred}}/v2/alfred/intent"
+				"url": "{{baseUrl}}/v2/alfred/intent"
 			},
 			"response": []
 		},
