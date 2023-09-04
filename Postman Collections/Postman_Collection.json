@@ -46,7 +46,7 @@
 						}
 					}
 				},
-				"url": "{{baseUrl_Alfred}}/v2/alfred/platform/{{platformId}}/walletauthentication"
+				"url": "{{baseUrl}}/v2/alfred/platform/{{platformId}}/walletauthentication"
 			},
 			"response": []
 		},
