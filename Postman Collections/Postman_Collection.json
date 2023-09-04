@@ -475,11 +475,11 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "a07f145a-5fbb-4153-b77f-53b6c45fe580",
+				"id": "05adf2ab-f0b6-45be-b908-fba90cfa672e",
 				"type": "text/javascript",
 				"exec": [
 					"const getTokenRequest = {",
-					"    url: pm.environment.get(\"baseUrl_Alfred\") + \"/v2/alfred/platform/\" + pm.environment.get(\"platformId\") + \"/walletauthentication\",",
+					"    url: pm.environment.get(\"baseUrl\") + \"/v2/alfred/platform/\" + pm.environment.get(\"platformId\") + \"/walletauthentication\",",
 					"    method: \"POST\",",
 					"    header:  {\"Content-Type\":\"application/json\", \"Api-Key\": pm.environment.get(\"platformApiKey\")},",
 					"    body: {",
@@ -513,7 +513,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "92081ed6-b22d-42c8-9f7d-02d74c0c9659",
+				"id": "1eb6ea36-0fac-4706-a010-8d36074a0dc7",
 				"type": "text/javascript",
 				"exec": [
 					""
