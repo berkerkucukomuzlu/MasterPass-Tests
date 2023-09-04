@@ -465,47 +465,13 @@
 			"response": []
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": {
-			"token": "{{accessToken}}"
-		}
-	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "05adf2ab-f0b6-45be-b908-fba90cfa672e",
+				"id": "8a7d9bc6-ed66-44dc-8f53-241d932eda26",
 				"type": "text/javascript",
 				"exec": [
-					"const getTokenRequest = {",
-					"    url: pm.environment.get(\"baseUrl\") + \"/v2/alfred/platform/\" + pm.environment.get(\"platformId\") + \"/walletauthentication\",",
-					"    method: \"POST\",",
-					"    header:  {\"Content-Type\":\"application/json\", \"Api-Key\": pm.environment.get(\"platformApiKey\")},",
-					"    body: {",
-					"        mode: 'application/json',",
-					"        raw: JSON.stringify({",
-					"            \"externalReferenceId\": pm.environment.get(\"externalReferenceId\"),",
-					"            \"subsidiaryName\": pm.environment.get(\"subsidiaryName\")",
-					"            ",
-					"        })",
-					"    }",
-					"};",
-					"",
-					"",
-					"",
-					"pm.sendRequest(getTokenRequest, function(err, res) {",
-					"    console.log(err ? err : res.json());",
-					"        ",
-					"        var responseJson = res.json();",
-					"        pm.environment.set('accessToken', responseJson.data.accessToken.accessToken)",
-					"        pm.environment.set('walletId', responseJson.data.walletId)",
-					"        ",
-					"});",
-					"",
-					"",
-					"",
-					"",
 					""
 				]
 			}
@@ -513,7 +479,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1eb6ea36-0fac-4706-a010-8d36074a0dc7",
+				"id": "30acb689-b9bb-494f-b965-c57eceb6fee9",
 				"type": "text/javascript",
 				"exec": [
 					""
